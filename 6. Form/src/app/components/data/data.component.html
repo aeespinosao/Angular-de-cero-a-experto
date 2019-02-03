@@ -1,0 +1,179 @@
+<div class="container">
+  <div class="row">
+    <div class='col col-sm-12'>
+      <h4>Formularios
+        <small>
+          data
+          <a href="https://angular.io/guide/reactive-forms">Reactive Forms</a>
+        </small>
+      </h4>
+    </div>
+    <form class='col col-sm-12' [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div formGroupName="nombreCompleto" >
+        <div class="form-group row">
+          <label for="inputNombre" class="col-sm-2 col-form-label">Nombre</label>
+          <div class="col-sm-10">
+            <input [ngClass]="{'is-invalid': profileForm.get('nombreCompleto.firstName').invalid && (profileForm.get('nombreCompleto.firstName').dirty || profileForm.get('nombreCompleto.firstName').touched)}"
+                   class='form-control' type="text" id="inputNombre" placeholder="Nombre" formControlName="firstName">
+            <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('nombreCompleto.firstName').invalid && (profileForm.get('nombreCompleto.firstName').dirty || profileForm.get('nombreCompleto.firstName').touched)">
+                <div *ngIf="profileForm.get('nombreCompleto.firstName').errors.required">
+                  Name is required.
+                </div>
+                <div *ngIf="profileForm.controls.nombreCompleto.controls.firstName.errors.minlength">
+                  Name must be at least 4 chara cters long.
+                </div>
+                <div *ngIf="profileForm.controls.nombreCompleto.controls.firstName.errors.forbiddenName">
+                  El nombre no puede ser eduardo
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="inputApellido" class="col-sm-2 col-form-label">Apellido</label>
+          <div class="col-sm-10">
+            <input [ngClass]="{'is-invalid': profileForm.get('nombreCompleto.lastName').invalid && (profileForm.get('nombreCompleto.lastName').dirty || profileForm.get('nombreCompleto.lastName').touched)}"
+                    type="text" required class="form-control" id="inputApellido" placeholder="Apellido" formControlName="lastName">
+            <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('nombreCompleto.lastName').invalid && (profileForm.get('nombreCompleto.lastName').dirty || profileForm.get('nombreCompleto.lastName').touched)">
+                <div *ngIf="profileForm.get('nombreCompleto.lastName').errors.required">
+                  Apellido is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputCorreo" class="col-sm-2 col-form-label">Correo</label>
+        <div class="col-sm-10">
+          <input  [ngClass]="{'is-invalid': profileForm.get('mail').invalid && (profileForm.get('mail').dirty || profileForm.get('mail').touched)}"
+                  type="email" class="form-control" id="inputCorreo" placeholder="Correo" formControlName="mail">
+          <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('mail').invalid && (profileForm.get('mail').dirty || profileForm.get('mail').touched)">
+                <div *ngIf="profileForm.get('mail').errors.required">
+                    mail is required.
+                </div>
+                <div *ngIf="profileForm.controls.mail.errors.pattern">
+                  No es un correo valido
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputCorreo" class="col-sm-2 col-form-label">username</label>
+        <div class="col-sm-10">
+          <input  [ngClass]="{'is-invalid': profileForm.get('username').invalid && (profileForm.get('username').dirty || profileForm.get('username').touched)}"
+                  type="password" class="form-control" id="inputusername" placeholder="username" formControlName="username">
+          <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('username').invalid && (profileForm.get('username').dirty || profileForm.get('username').touched)">
+                <div *ngIf="profileForm.get('username').errors.required">
+                  password1 is required.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputCorreo" class="col-sm-2 col-form-label">pwd1</label>
+        <div class="col-sm-10">
+          <input  [ngClass]="{'is-invalid': profileForm.get('password1').invalid && (profileForm.get('password1').dirty || profileForm.get('password1').touched)}"
+                  type="password" class="form-control" id="inputpassword1" placeholder="password1" formControlName="password1">
+          <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('password1').invalid && (profileForm.get('password1').dirty || profileForm.get('password1').touched)">
+                <div *ngIf="profileForm.get('password1').errors.required">
+                  password1 is required.
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputCorreo" class="col-sm-2 col-form-label">pwd2</label>
+        <div class="col-sm-10">
+          <input  [ngClass]="{'is-invalid': profileForm.get('password2').invalid && (profileForm.get('password2').dirty || profileForm.get('password2').touched)}"
+                  type="password" class="form-control" id="inputpassword2" placeholder="password2" formControlName="password2">
+          <div class="invalid-feedback">
+              <div *ngIf="profileForm.get('password2').invalid && (profileForm.get('password2').dirty || profileForm.get('password2').touched)">
+                <div *ngIf="profileForm.get('password2').errors.required">
+                  password1 is required.
+                </div>
+                <div *ngIf="profileForm.controls.password2.errors.noigual">
+                  No es igual
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="form-group row" formArrayName="cursos">
+          <label for="inputCursos0" class="col-sm-2 col-form-label">Cursos</label>
+          <button (click)='addAlias()' class="col-sm-2 btn btn-outline-primary">
+            Add
+          </button>
+          <div class="col-sm-8">
+            <!--[ngClass]="{'is-invalid': profileForm.get('cursos')[i].invalid && (pprofileForm.get('cursos')[i].dirty || pprofileForm.get('cursos')[i].touched)}"-->
+            <input *ngFor="let curso of profileForm.controls.cursos.controls; let i=index"
+                    type="text" class="form-control" id="inputCorreo{{i}}" placeholder="Curso" [formControlName]="i">
+            <!--
+            <div class="invalid-feedback">
+                <div *ngIf="profileForm.get('mail').invalid && (profileForm.get('mail').dirty || profileForm.get('mail').touched)">
+                  <div *ngIf="profileForm.get('mail').errors.required">
+                      mail is required.
+                  </div>
+                  <div *ngIf="profileForm.controls.mail.errors.pattern">
+                    No es un correo valido
+                  </div>
+                </div>
+            </div>
+            -->
+          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md-8">
+          <button type="submit" class="btn btn-outline-primary" [disabled]="!profileForm.valid">
+            Guardar
+          </button>
+          <button type="submit" class="btn btn-outline-primary" >
+            Guardar
+          </button>
+          <button (click)="updateProfile()" class="btn btn-outline-primary" >
+            Patching
+          </button>
+          <button (click)="reset()" class="btn btn-outline-primary">
+            Reset
+          </button>
+        </div>
+      </div>
+    </form>
+    <div class="col sm 12">
+        profileForm.invalid: {{profileForm.invalid | json}} <br>
+        profileForm.status: {{profileForm.status | json}}
+        <div *ngIf="profileForm.invalid" class='border border-warning'>
+            firstName errors: <span class='text-danger'>{{profileForm.controls.nombreCompleto.controls.firstName.errors | json}}</span> <br>
+            lastName errors:  <span class='text-danger'>{{profileForm.controls.nombreCompleto.controls.lastName.errors | json}}</span> <br>
+            mail errors:      <span class='text-danger'>{{profileForm.controls.mail.errors | json}}</span> <br>
+            cursos errors:      <span class='text-danger'>{{profileForm.controls.cursos.errors | json}}</span> <br>
+            pwd1:      <span class='text-danger'>{{profileForm.controls.password1.errors | json}}</span> <br>
+            pwd1:      <span class='text-danger'>{{profileForm.controls.password2.errors | json}}</span> <br>
+        </div>
+        <hr>
+        <!--
+        <div *ngIf="profileForm.controls.nombreCompleto.controls.firstName.invalid" class='border border-warning'>
+            required: <span class='text-danger'>{{profileForm.controls.nombreCompleto.controls.firstName.errors.required | json}}</span> <br>
+            minlength: <span class='text-danger'>{{profileForm.controls.nombreCompleto.controls.firstName.errors.minlength | json}}</span> <br>
+        </div>
+        <br>
+        -->
+        firstName value: <div class='text-danger' [innerHTML]="profileForm.get('nombreCompleto.firstName').value"></div>
+        firstName invalid: <span class='text-danger'>{{profileForm.controls.nombreCompleto.controls.firstName.invalid}}</span> <br>
+
+        profileForm.value: <span class='text-danger'> {{profileForm.value | json}} </span><br>
+        profileForm.valid: <span class='text-danger'> {{profileForm.valid }} </span>
+    </div>
+  </div>
+</div>
+
+
